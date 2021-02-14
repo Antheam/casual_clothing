@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Header.scss";
 
 import { ReactComponent as Logo } from "../../assets/crown.svg";
-import { auth } from "../Firebase/Firebase.utils.js";
+import { auth } from "../../../src/Firebase/Firebase.utils.js";
 
 const Header = ({ currentUser }) => {
   return (

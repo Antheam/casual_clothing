@@ -3,7 +3,8 @@ import React from "react";
 import "./SignIn.scss";
 import FormInput from "../FormInput/FormInput.jsx";
 import CustomButton from "../CustomButton/CustomButton.jsx";
-import { signInWithGoogle } from "../Firebase/Firebase.utils.js";
+// import { signInWithGoogle } from "../../../public/Firebase/Firebase.utils.js";
+import { signInWithGoogle } from "../../../src/Firebase/Firebase.utils.js";
 
 class SignIn extends React.Component {
   constructor(props) {

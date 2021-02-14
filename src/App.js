@@ -6,7 +6,11 @@ import HomePage from "./Components/Pages/Homepage/Homepage.jsx";
 import ShopPage from "./Components/Pages/Shop/Shop.jsx";
 import Header from "./Components/Header/Header.jsx";
 import SignInAndSignUp from "./Components/Pages/SignInAndSignUp/SignInAndSignUp.jsx";
-import { auth } from "./Components/Firebase/Firebase.utils.js";
+
+import {
+  auth,
+  createUserProfileDocument
+} from "../src/Firebase/Firebase.utils.js";
 
 const HatsPage = () => (
   <div>
@@ -23,9 +27,17 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot(snapShot => {
+          console.log(snapShot.data());
+          this.setState({ currentUser: { id: snapShot.id, ...snapShot.data } });
+        });
+        console.log(this.state);
+      }
+      this.setState({ currentUser: userAuth });
+      console.log(userAuth);
     });
   }
 
