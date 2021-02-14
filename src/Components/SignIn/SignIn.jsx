@@ -4,20 +4,32 @@ import "./SignIn.scss";
 import FormInput from "../FormInput/FormInput.jsx";
 import CustomButton from "../CustomButton/CustomButton.jsx";
 // import { signInWithGoogle } from "../../../public/Firebase/Firebase.utils.js";
-import { signInWithGoogle } from "../../../src/Firebase/Firebase.utils.js";
+import {
+  auth,
+  signInWithGoogle
+} from "../../../src/Firebase/Firebase.utils.js";
 
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       email: "",
       password: ""
     };
   }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
-    this.setState({ email: "", password: "" });
+
+    const { email, password } = this.state;
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      this.setState({ email: "", password: "" });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleChange = event => {
@@ -34,19 +46,19 @@ class SignIn extends React.Component {
           <FormInput
             name="email"
             type="email"
+            handleChange={this.handleChange}
             value={this.state.email}
             label="email"
             required
-            handleChange={this.handleChange}
           />
 
           <FormInput
             name="password"
             type="password"
             value={this.state.password}
+            handleChange={this.handleChange}
             label="password"
             required
-            handleChange={this.handleChange}
           />
           <div className="buttons">
             <CustomButton type="submit" value="Submit Form">
